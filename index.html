@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A clickable standalone guide to hosting a monthly newsletter for free with Qwen Code and GitHub Pages." />
+  <title>Free Newsletter Hosting Guide — Qwen Code + GitHub</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #07101f;
+      --bg2: #11182b;
+      --panel: rgba(255,255,255,.055);
+      --panel2: rgba(255,255,255,.085);
+      --line: rgba(255,255,255,.12);
+      --text: #f8fafc;
+      --muted: #a9b5c8;
+      --muted2: #718096;
+      --blue: #60a5fa;
+      --purple: #c084fc;
+      --pink: #f472b6;
+      --green: #4ade80;
+      --shadow: 0 18px 55px rgba(0,0,0,.30);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 14% 9%, rgba(139,92,246,.18), transparent 30rem),
+        radial-gradient(circle at 89% 18%, rgba(59,130,246,.14), transparent 34rem),
+        linear-gradient(135deg, #020617 0%, #0f172a 48%, #171640 100%);
+      line-height: 1.55;
+    }
+
+    a { color: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    button { font: inherit; }
+
+    .wrap { width: min(1040px, calc(100% - 32px)); margin: 0 auto; }
+    .narrow { width: min(780px, calc(100% - 32px)); margin: 0 auto; }
+    .section { padding: 62px 0; }
+    .center { text-align: center; }
+
+    .hero { position: relative; overflow: hidden; padding: 78px 0 58px; }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.08);
+      border-radius: 999px;
+      padding: 9px 14px;
+      color: var(--green);
+      font-size: .9rem;
+      font-weight: 700;
+      backdrop-filter: blur(8px);
+    }
+    h1 {
+      margin: 26px auto 18px;
+      max-width: 900px;
+      font-size: clamp(2.55rem, 7vw, 4.75rem);
+      line-height: 1.03;
+      letter-spacing: -.045em;
+    }
+    .gradient-text {
+      background: linear-gradient(90deg, var(--blue), var(--purple), var(--pink));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .lead {
+      max-width: 760px;
+      margin: 0 auto 30px;
+      color: #cbd5e1;
+      font-size: clamp(1.03rem, 2vw, 1.23rem);
+    }
+
+    .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+    .btn {
+      appearance: none;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      padding: 12px 20px;
+      color: white;
+      background: rgba(255,255,255,.08);
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform .16s ease, background .16s ease, border-color .16s ease, box-shadow .16s ease;
+      font-weight: 750;
+    }
+    .btn:hover { transform: translateY(-1px); background: rgba(255,255,255,.13); }
+    .btn.primary {
+      border-color: transparent;
+      background: linear-gradient(90deg, #3b82f6, #9333ea);
+      box-shadow: 0 12px 32px rgba(139,92,246,.24);
+    }
+    .btn.primary:hover { box-shadow: 0 16px 38px rgba(139,92,246,.34); }
+    .btn.light { background: white; color: #0f172a; border-color: white; }
+    .btn:disabled { opacity: .32; cursor: not-allowed; transform: none; }
+
+    .section-title { margin: 0 0 8px; font-size: clamp(1.8rem, 4vw, 2.35rem); letter-spacing: -.03em; }
+    .section-copy { margin: 0 auto 34px; color: var(--muted); max-width: 700px; }
+
+    .stack-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+    .card {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+    .stack-card { padding: 20px 14px; text-align: center; transition: background .17s ease, transform .17s ease; }
+    .stack-card:hover { background: var(--panel2); transform: translateY(-2px); }
+    .stack-card .icon { font-size: 2rem; }
+    .stack-card strong { display: block; margin-top: 8px; font-size: .92rem; }
+    .stack-card small { display: block; color: var(--muted); margin-top: 4px; font-size: .75rem; min-height: 36px; }
+    .stack-card .cost { color: var(--green); font-weight: 800; margin-top: 8px; font-size: .77rem; }
+
+    .step-tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 28px 0; }
+    .step-tab {
+      border: 0;
+      color: var(--muted);
+      background: rgba(255,255,255,.055);
+      padding: 9px 13px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    .step-tab:hover { background: rgba(255,255,255,.1); color: white; }
+    .step-tab.active { color: white; background: linear-gradient(90deg,#3b82f6,#9333ea); box-shadow: 0 10px 28px rgba(99,102,241,.25); }
+
+    .step-panel { padding: clamp(24px, 5vw, 40px); min-height: 430px; }
+    .step-head { display: flex; gap: 16px; align-items: flex-start; }
+    .step-emoji { font-size: 2.6rem; line-height: 1; }
+    .eyebrow { color: #c084fc; font-weight: 800; font-size: .82rem; margin-bottom: 3px; }
+    .step-panel h3 { margin: 0; font-size: 1.65rem; line-height: 1.15; }
+    .step-description { color: #cbd5e1; font-size: 1.05rem; margin: 22px 0; }
+    .detail-list { list-style: none; padding: 0; margin: 0 0 24px; display: grid; gap: 11px; }
+    .detail-list li { display: flex; gap: 12px; align-items: flex-start; color: #cbd5e1; }
+    .num {
+      width: 24px; height: 24px; flex: 0 0 24px;
+      display: grid; place-items: center;
+      border-radius: 999px;
+      background: linear-gradient(135deg,#3b82f6,#9333ea);
+      font-size: .75rem; font-weight: 900; color: white;
+      margin-top: 1px;
+    }
+    .prompt {
+      background: rgba(2,6,23,.62);
+      border: 1px solid rgba(148,163,184,.22);
+      border-radius: 13px;
+      padding: 16px;
+    }
+    .prompt-label { color: var(--muted2); font-size: .71rem; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 8px; }
+    .prompt code { color: #86efac; white-space: pre-wrap; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .87rem; }
+    .step-nav { display: flex; justify-content: space-between; gap: 12px; margin-top: 18px; }
+
+    .workflow-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; }
+    .workflow { position: relative; padding: 24px 18px; text-align: center; min-height: 210px; transition: transform .17s ease, background .17s ease; }
+    .workflow:hover { transform: translateY(-2px); background: var(--panel2); }
+    .workflow .bubble { width: 50px; height: 50px; margin: 0 auto 14px; border-radius: 50%; display: grid; place-items: center; font-size: 1.45rem; background: linear-gradient(135deg,#3b82f6,#8b5cf6); }
+    .workflow .stepno { color: var(--muted2); font-size: .72rem; font-weight: 850; }
+    .workflow h4 { margin: 3px 0 8px; }
+    .workflow p { color: var(--muted); font-size: .88rem; margin: 0; }
+
+    .tips-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; }
+    .tip { padding: 22px; transition: background .17s ease, transform .17s ease; }
+    .tip:hover { background: var(--panel2); transform: translateY(-2px); }
+    .tip .icon { font-size: 1.8rem; }
+    .tip h4 { margin: 8px 0 6px; }
+    .tip p { color: var(--muted); margin: 0; font-size: .9rem; }
+
+    .faq { overflow: hidden; margin-bottom: 10px; }
+    .faq button { width: 100%; border: 0; color: white; background: transparent; padding: 17px 20px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; text-align: left; font-weight: 800; }
+    .faq button:hover { background: rgba(255,255,255,.04); }
+    .faq .plus { font-size: 1.5rem; transition: transform .18s ease; font-weight: 300; }
+    .faq.open .plus { transform: rotate(45deg); }
+    .faq-answer { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .22s ease; }
+    .faq.open .faq-answer { grid-template-rows: 1fr; }
+    .faq-answer > div { overflow: hidden; }
+    .faq-answer p { margin: 0; padding: 0 20px 18px; color: var(--muted); font-size: .92rem; }
+
+    .terminal { background: rgba(2,6,23,.78); border: 1px solid rgba(148,163,184,.24); border-radius: 17px; padding: 22px; overflow-x: auto; box-shadow: var(--shadow); }
+    .terminal pre { margin: 0; font-size: .87rem; line-height: 1.7; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; white-space: pre-wrap; }
+    .comment { color: #64748b; }
+    .cmd { color: #86efac; }
+    .result { color: #fde047; }
+
+    .cta { padding: clamp(32px, 7vw, 54px); text-align: center; background: linear-gradient(135deg, rgba(59,130,246,.15), rgba(147,51,234,.16)); }
+    .cta h2 { font-size: clamp(2rem,5vw,2.7rem); margin: 0 0 10px; }
+    .cta p { color: #cbd5e1; max-width: 650px; margin: 0 auto 24px; }
+
+    footer { border-top: 1px solid var(--line); text-align: center; padding: 30px 16px 46px; color: #64748b; font-size: .87rem; }
+    .tiny-note { margin-top: 8px; color: #5f6f87; font-size: .78rem; }
+
+    @media (max-width: 900px) {
+      .stack-grid { grid-template-columns: repeat(2,1fr); }
+      .workflow-grid { grid-template-columns: repeat(2,1fr); }
+    }
+    @media (max-width: 620px) {
+      .section { padding: 44px 0; }
+      .hero { padding-top: 58px; }
+      .stack-grid, .workflow-grid, .tips-grid { grid-template-columns: 1fr; }
+      .stack-card small { min-height: 0; }
+      .step-tab .label { display: none; }
+      .step-panel { min-height: 520px; }
+      .step-head { align-items: center; }
+      .step-nav .btn { padding-inline: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero center">
+    <div class="wrap">
+      <div class="badge">💰 Total Cost: $0/month</div>
+      <h1>Host Your Monthly Newsletter<br><span class="gradient-text">Completely Free</span></h1>
+      <p class="lead">A step-by-step guide for using <strong>Qwen Code</strong> + <strong>GitHub Pages</strong> to create, host, and maintain a professional monthly newsletter — no servers, no subscriptions, no cost.</p>
+      <div class="actions">
+        <a class="btn primary" href="#steps">Get Started →</a>
+        <a class="btn" href="#faq">FAQ</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="wrap">
+        <h2 class="section-title center">The Stack</h2>
+        <div class="stack-grid" style="margin-top:28px">
+          <article class="card stack-card"><div class="icon">🧠</div><strong>Qwen Code</strong><small>AI writing & coding assistant</small><div class="cost">Free tier</div></article>
+          <article class="card stack-card"><div class="icon">🐙</div><strong>GitHub</strong><small>Code hosting & version control</small><div class="cost">Free</div></article>
+          <article class="card stack-card"><div class="icon">📄</div><strong>GitHub Pages</strong><small>Static site hosting</small><div class="cost">Free</div></article>
+          <article class="card stack-card"><div class="icon">⚙️</div><strong>GitHub Actions</strong><small>CI/CD automation</small><div class="cost">Free allowance</div></article>
+          <article class="card stack-card"><div class="icon">🔗</div><strong>Custom Domain</strong><small>Professional URL (optional)</small><div class="cost">Optional paid add-on</div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="steps">
+      <div class="wrap">
+        <h2 class="section-title center">Step-by-Step Guide</h2>
+        <p class="section-copy center">Click the steps below to walk through the process from a blank folder to a live newsletter archive.</p>
+
+        <div class="step-tabs" id="stepTabs" aria-label="Newsletter setup steps"></div>
+        <article class="card step-panel" id="stepPanel" aria-live="polite"></article>
+        <div class="step-nav">
+          <button class="btn" id="prevBtn" type="button">← Previous</button>
+          <button class="btn" id="nextBtn" type="button">Next →</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <h2 class="section-title center">Monthly Workflow</h2>
+        <p class="section-copy center">Once the initial site exists, publishing each issue becomes a short repeatable routine.</p>
+        <div class="workflow-grid">
+          <article class="card workflow"><div class="bubble">📝</div><div class="stepno">STEP 1</div><h4>Write Notes</h4><p>Jot down your content ideas, links, and thoughts for the month.</p></article>
+          <article class="card workflow"><div class="bubble">🤖</div><div class="stepno">STEP 2</div><h4>Ask Qwen</h4><p>Paste the notes into Qwen Code and ask for polished newsletter HTML.</p></article>
+          <article class="card workflow"><div class="bubble">📤</div><div class="stepno">STEP 3</div><h4>Push to GitHub</h4><p>Commit the new issue and push it to your repository.</p></article>
+          <article class="card workflow"><div class="bubble">🚀</div><div class="stepno">STEP 4</div><h4>Auto-Deploy</h4><p>GitHub Pages updates the live newsletter site automatically.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <h2 class="section-title center">💡 Pro Tips</h2>
+        <div class="tips-grid" style="margin-top:32px">
+          <article class="card tip"><div class="icon">🏗️</div><h4>Use a Static Site Generator</h4><p>Tools like Hugo, 11ty, or Astro can make a growing newsletter archive easier to maintain.</p></article>
+          <article class="card tip"><div class="icon">📡</div><h4>Add an RSS Feed</h4><p>Give readers a free way to subscribe in their favorite feed reader without an email platform.</p></article>
+          <article class="card tip"><div class="icon">⏰</div><h4>Version Control = Time Machine</h4><p>Git tracks changes, so an accidental deletion can be recovered from an earlier commit.</p></article>
+          <article class="card tip"><div class="icon">🌿</div><h4>Use Branches for Drafts</h4><p>Prepare the next issue separately and merge it only when you are ready to publish.</p></article>
+          <article class="card tip"><div class="icon">📊</div><h4>Add Analytics Carefully</h4><p>If readership metrics matter, add a privacy-conscious analytics option or another service you trust.</p></article>
+          <article class="card tip"><div class="icon">👥</div><h4>Collaborate</h4><p>Invite contributors through GitHub or accept changes through pull requests.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <div class="narrow">
+        <h2 class="section-title center">Frequently Asked Questions</h2>
+        <p class="section-copy center">Click a question to expand it.</p>
+
+        <article class="card faq"><button type="button" aria-expanded="false"><span>Is the basic hosting really free?</span><span class="plus">+</span></button><div class="faq-answer"><div><p>Yes. A public GitHub repository and GitHub Pages can host a simple static newsletter site without a monthly hosting bill. Optional extras such as a custom domain or third-party email service may cost money.</p></div></div></article>
+        <article class="card faq"><button type="button" aria-expanded="false"><span>Do I need to know how to code?</span><span class="plus">+</span></button><div class="faq-answer"><div><p>Not much. An AI coding assistant can generate and revise the HTML/CSS. The main skills are describing what you want, reviewing the result, and learning the basic GitHub publish workflow.</p></div></div></article>
+        <article class="card faq"><button type="button" aria-expanded="false"><span>Can people subscribe by email?</span><span class="plus">+</span></button><div class="faq-answer"><div><p>GitHub Pages is the website/archive, not an email-list service. You can add RSS or connect a separate mailing-list provider later if email delivery becomes important.</p></div></div></article>
+        <article class="card faq"><button type="button" aria-expanded="false"><span>What about a custom domain?</span><span class="plus">+</span></button><div class="faq-answer"><div><p>GitHub Pages supports custom domains. You can also simply use the free github.io address and avoid buying a domain at all.</p></div></div></article>
+        <article class="card faq"><button type="button" aria-expanded="false"><span>How do I update it each month?</span><span class="plus">+</span></button><div class="faq-answer"><div><p>Write the new issue, ask the coding assistant to add it using the existing design, review the change, then push it to GitHub. Your archive can update with the new issue at the same public URL.</p></div></div></article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap" style="max-width:900px">
+        <h2 class="section-title center">🚀 Quick Start Commands</h2>
+        <p class="section-copy center">For someone comfortable using a terminal, this is the rough shape of the setup.</p>
+        <div class="terminal"><pre><span class="comment"># 1. Create your newsletter folder</span>
+<span class="cmd">$ mkdir my-newsletter
+$ cd my-newsletter
+$ git init</span>
+
+<span class="comment"># 2. Add your website files</span>
+<span class="cmd">$ mkdir -p issues
+$ touch index.html
+$ git add .
+$ git commit -m "Initial newsletter setup"</span>
+
+<span class="comment"># 3. Create a GitHub repository, then connect it</span>
+<span class="cmd">$ git remote add origin https://github.com/YOU/my-newsletter.git
+$ git branch -M main
+$ git push -u origin main</span>
+
+<span class="comment"># 4. Enable GitHub Pages in the repository settings</span>
+<span class="result">✨ Then your site can live at https://YOU.github.io/my-newsletter/</span></pre></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap" style="max-width:900px">
+        <div class="card cta">
+          <h2>Ready to Start?</h2>
+          <p>Create a repository, let an AI coding assistant help with the page, preview it in your browser, and publish when it looks right.</p>
+          <div class="actions">
+            <a class="btn light" href="https://github.com/" target="_blank" rel="noopener noreferrer">🐙 Open GitHub</a>
+            <a class="btn" href="https://coder.qwen.ai/" target="_blank" rel="noopener noreferrer">🤖 Open Qwen Code</a>
+          </div>
+          <div class="tiny-note">External buttons open in a new tab.</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div>Made to help a friend launch a community newsletter without paying for simple static hosting.</div>
+    <div style="margin-top:6px">Qwen Code + GitHub Pages = 🤝</div>
+  </footer>
+
+  <script>
+    const steps = [
+      {
+        title: 'Write Your Newsletter with Qwen Code',
+        icon: '🤖',
+        description: 'Use Qwen Code as an AI coding assistant to help write, format, and structure the newsletter. It can generate HTML, refine layouts, and turn rough notes into a reusable page.',
+        details: [
+          'Open Qwen Code in the web interface or connect it to your coding workflow.',
+          'Ask it to create a newsletter template in HTML.',
+          'Iterate on the design: colors, typography, sections, and navigation.',
+          'Have it refine the newsletter copy and convert rough notes into structured sections.',
+          'Preview the result locally in a browser before publishing.'
+        ],
+        prompt: 'Create a clean, responsive monthly community-newsletter website with a header, featured article section, issue archive, and footer. Keep it static so it can be hosted on GitHub Pages.'
+      },
+      {
+        title: 'Set Up a GitHub Repository',
+        icon: '📦',
+        description: 'Create a free GitHub repository to hold the newsletter site. The repository becomes the source of truth for the current issue and the archive.',
+        details: [
+          'Create or sign into a GitHub account.',
+          'Create a public repository with a simple name such as “my-newsletter”.',
+          'Add your index.html and any image or issue files.',
+          'Use a folder such as /issues if you want a clean monthly archive.',
+          'Commit and push the files to the repository.'
+        ]
+      },
+      {
+        title: 'Publish with GitHub Pages',
+        icon: '🌐',
+        description: 'GitHub Pages turns static files in the repository into a public website, giving the newsletter a clean permanent home instead of relying on file-sharing links.',
+        details: [
+          'Open the repository Settings and choose Pages.',
+          'Select the publishing source GitHub asks you to use.',
+          'Wait for the initial deployment to complete.',
+          'Open the github.io URL GitHub provides.',
+          'Use the homepage as the latest-issue landing page and link older issues from an archive.'
+        ]
+      },
+      {
+        title: 'Automate Deployment (Optional)',
+        icon: '⚡',
+        description: 'For a simple site, GitHub Pages may already be enough. If the project later needs a build step, GitHub Actions can automate it.',
+        details: [
+          'Start simple: avoid automation you do not need yet.',
+          'Add a workflow only if the site gains a build process or generator.',
+          'Trigger deployment when changes reach the main branch.',
+          'Keep generated output reproducible so the published site can be rebuilt.',
+          'Review the live site after each deployment.'
+        ]
+      },
+      {
+        title: 'Use Qwen Code to Maintain It',
+        icon: '🔄',
+        description: 'Once the first issue exists, the monthly job becomes incremental: add the next issue, update the archive, verify the links, and publish.',
+        details: [
+          'Paste the new month’s notes or finished newsletter into the coding assistant.',
+          'Ask it to match the established design instead of reinventing the site.',
+          'Update the homepage and archive to feature the new issue.',
+          'Preview every changed link and page locally.',
+          'Commit the update and push it to GitHub.'
+        ],
+        prompt: 'Here is this month’s newsletter content. Add it as the newest issue using the existing site style, update the archive and homepage, preserve all previous issues, and make no unrelated design changes.'
+      }
+    ];
+
+    let activeStep = 0;
+    const tabs = document.getElementById('stepTabs');
+    const panel = document.getElementById('stepPanel');
+    const prev = document.getElementById('prevBtn');
+    const next = document.getElementById('nextBtn');
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+    }
+
+    function renderStep() {
+      const step = steps[activeStep];
+      tabs.innerHTML = steps.map((s, i) => `
+        <button type="button" class="step-tab ${i === activeStep ? 'active' : ''}" data-step="${i}" aria-pressed="${i === activeStep}">
+          ${s.icon} <span class="label">Step ${i + 1}</span>
+        </button>`).join('');
+
+      panel.innerHTML = `
+        <div class="step-head">
+          <div class="step-emoji">${step.icon}</div>
+          <div><div class="eyebrow">Step ${activeStep + 1} of ${steps.length}</div><h3>${escapeHtml(step.title)}</h3></div>
+        </div>
+        <p class="step-description">${escapeHtml(step.description)}</p>
+        <ol class="detail-list">
+          ${step.details.map((d, i) => `<li><span class="num">${i + 1}</span><span>${escapeHtml(d)}</span></li>`).join('')}
+        </ol>
+        ${step.prompt ? `<div class="prompt"><div class="prompt-label">💡 Example Prompt for Qwen Code</div><code>${escapeHtml(step.prompt)}</code></div>` : ''}
+      `;
+      prev.disabled = activeStep === 0;
+      next.disabled = activeStep === steps.length - 1;
+    }
+
+    tabs.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-step]');
+      if (!btn) return;
+      activeStep = Number(btn.dataset.step);
+      renderStep();
+    });
+    prev.addEventListener('click', () => { if (activeStep > 0) { activeStep--; renderStep(); panel.scrollIntoView({behavior:'smooth', block:'nearest'}); } });
+    next.addEventListener('click', () => { if (activeStep < steps.length - 1) { activeStep++; renderStep(); panel.scrollIntoView({behavior:'smooth', block:'nearest'}); } });
+
+    document.querySelectorAll('.faq').forEach((item) => {
+      const button = item.querySelector('button');
+      button.addEventListener('click', () => {
+        const open = item.classList.toggle('open');
+        button.setAttribute('aria-expanded', String(open));
+      });
+    });
+
+    renderStep();
+  </script>
+</body>
+</html>

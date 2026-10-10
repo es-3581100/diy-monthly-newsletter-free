@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="468" viewBox="0 0 700 468" role="img" aria-labelledby="title desc">
+  <title id="title">Host Your Monthly Newsletter Completely Free</title>
+  <desc id="desc">Dark navy hero preview with a zero-cost badge, gradient headline, explanatory subtitle, and Get Started and FAQ buttons.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#070c1c"/>
+      <stop offset="0.55" stop-color="#11112f"/>
+      <stop offset="1" stop-color="#07101f"/>
+    </linearGradient>
+    <linearGradient id="headline" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#5796ff"/>
+      <stop offset="0.48" stop-color="#a974ff"/>
+      <stop offset="1" stop-color="#ff6fbd"/>
+    </linearGradient>
+    <linearGradient id="button" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#408cff"/>
+      <stop offset="1" stop-color="#9b22ef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="700" height="468" fill="url(#bg)"/>
+
+  <rect x="260" y="49" width="180" height="31" rx="16" fill="#171d2f" stroke="#2b354a"/>
+  <text x="350" y="70" text-anchor="middle" fill="#54e58a" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" font-weight="700">💰 Total Cost: $0/month</text>
+
+  <text x="350" y="140" text-anchor="middle" fill="#f5f7ff" font-family="Inter, Arial, sans-serif" font-size="48" font-weight="800">Host Your Monthly</text>
+  <text x="350" y="192" text-anchor="middle" fill="#f5f7ff" font-family="Inter, Arial, sans-serif" font-size="48" font-weight="800">Newsletter</text>
+  <text x="350" y="244" text-anchor="middle" fill="url(#headline)" font-family="Inter, Arial, sans-serif" font-size="48" font-weight="800">Completely Free</text>
+
+  <text x="350" y="282" text-anchor="middle" fill="#d3d7e4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13">
+    <tspan x="350" dy="0">A step-by-step guide for using Qwen Code + GitHub Pages</tspan>
+    <tspan x="350" dy="22">to create, host, and maintain a professional monthly</tspan>
+    <tspan x="350" dy="22">newsletter — no servers, no subscriptions, no cost.</tspan>
+  </text>
+
+  <rect x="258" y="349" width="126" height="42" rx="9" fill="url(#button)"/>
+  <text x="321" y="375" text-anchor="middle" fill="#fff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="14" font-weight="700">Get Started →</text>
+
+  <rect x="395" y="349" width="56" height="42" rx="9" fill="#1b2238" stroke="#323b54"/>
+  <text x="423" y="375" text-anchor="middle" fill="#fff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="14" font-weight="700">FAQ</text>
+</svg>
